@@ -1,0 +1,12 @@
+./test-images/gl-cairo-aatrick.png
+784.982
+355.94
+22.6069
+910
+430
+./test-images/nice-fonts.png
+375.359
+421.029
+-24.2752
+644.107
+401.62

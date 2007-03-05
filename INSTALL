@@ -1,0 +1,13 @@
+There isn't any install process. lowfat is far from finished and it is only
+meant to be run right out of this directory. See the start-lowfat.sh script.
+
+To compile it do the usual:
+
+	./autoget.sh
+	./configure
+	make
+
+If everything went well you'll be able to just:
+
+	./start-lowfat.sh
+
