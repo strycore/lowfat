@@ -5,7 +5,6 @@ INCLUDES = \
 		@CAIRO_CFLAGS@ \
 		@GL_CFLAGS@ \
 		-Wall \
-		-Werror \
 		-Wno-deprecated \
 		-pedantic \
 		-I$(top_srcdir)/include \

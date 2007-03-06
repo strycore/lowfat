@@ -90,7 +90,7 @@ AC_SUBST(GL_CFLAGS)
 AC_SUBST(GL_LIBS)
 
 dnl CFLAGS
-CFLAGS="$CFLAGS -Wall -Werror -Wno-deprecated -pedantic -std=c99 -fno-strict-aliasing -fmessage-length=0 -D_FORTIFY_SOURCE=2"
+CFLAGS="$CFLAGS -Wall -Wno-deprecated -pedantic -std=c99 -fno-strict-aliasing -fmessage-length=0 -D_FORTIFY_SOURCE=2"
 
 AC_CONFIG_FILES([
     Makefile
