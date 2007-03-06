@@ -3,7 +3,7 @@ meant to be run right out of this directory. See the start-lowfat.sh script.
 
 To compile it do the usual:
 
-	./autoget.sh
+	./autogen.sh
 	./configure
 	make
 
