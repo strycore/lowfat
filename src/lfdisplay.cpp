@@ -102,7 +102,7 @@ LfDisplay::make (std::string title,
 					    argv));
 }
 
-LfDisplay::~LfDisplay()
+LfDisplay::~LfDisplay ()
 {
 	if (surfaceLfDisplayPtr_)
 		SDL_FreeSurface (surfaceLfDisplayPtr_);
@@ -110,133 +110,164 @@ LfDisplay::~LfDisplay()
 	SDL_Quit ();
 }
 
-int LfDisplay::getWidth () const
+int
+LfDisplay::getWidth () const
 {
 	return (width_);
 }
 
-int LfDisplay::getHeight () const
+int
+LfDisplay::getHeight () const
 {
 	return (height_);
 }
 
-bool LfDisplay::isFullscreen () const
+bool
+LfDisplay::isFullscreen () const
 {
-	return (fullscreenFlag_);
+	return fullscreenFlag_;
 }
 
-std::string LfDisplay::getTitle () const
+std::string
+LfDisplay::getTitle () const
 {
-	return (title_);
+	return title_;
 }
 
-float LfDisplay::getScaleFactor () const
+float
+LfDisplay::getScaleFactor () const
 {
-	return (scaleFactor_);
+	return scaleFactor_;
 }
 
-void LfDisplay::setScaleFactor (float scaleFactor)
+void
+LfDisplay::setScaleFactor (float scaleFactor)
 {
 	scaleFactor_ = scaleFactor;
 }
 
-Vec2f LfDisplay::getTranslation() const
+Vec2f
+LfDisplay::getTranslation() const
 {
-	return( translationVector_ );
+	return translationVector_;
 }
 
-void LfDisplay::setTranslation( const Vec2f& translationVector )
+void
+LfDisplay::setTranslation (const Vec2f& translationVector)
 {
-	translationVector_ = translationVector;	
+	translationVector_ = translationVector;
 }
 
-void LfDisplay::setTranslation( float vecPartX, float vecPartY )
+void
+LfDisplay::setTranslation (float vecPartX,
+			   float vecPartY)
 {
 	translationVector_.x = vecPartX;
 	translationVector_.y = vecPartY;
 }
 
-float LfDisplay::getRotation() const
+float
+LfDisplay::getRotation () const
 {
-	return( rotationAngle_ );
+	return rotationAngle_;
 }
 
-void LfDisplay::setRotation( float rotationAngle )
+void
+LfDisplay::setRotation (float rotationAngle)
 {
 	rotationAngle_ = rotationAngle;
 }
 
-void LfDisplay::setTexture(TexturePtr texture, float size ) {
-    if (!texture.isNull())
+void
+LfDisplay::setTexture (TexturePtr texture,
+		       float size)
+{
+	if (!texture.isNull ())
 	{
-		glEnable(texture->getTextureTarget());
-        const bool hasTexAlpha = texture->hasAlpha();
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, hasTexAlpha ? GL_MODULATE : GL_DECAL);
-	    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, hasTexAlpha ? GL_MODULATE : GL_DECAL);
+		glEnable (texture->getTextureTarget ());
+		const bool hasTexAlpha = texture->hasAlpha ();
+		glTexEnvi (GL_TEXTURE_ENV,
+			   GL_TEXTURE_ENV_MODE,
+			   hasTexAlpha ? GL_MODULATE : GL_DECAL);
+		glTexEnvi (GL_TEXTURE_ENV,
+			   GL_TEXTURE_ENV_COLOR,
+			   hasTexAlpha ? GL_MODULATE : GL_DECAL);
 
 		int level = 0;
-        while( size < 0.5 )
+		while (size < 0.5)
 		{
 			level++;
 			size *= 2;
 		}
-		texture->setMipMapLevel( level );
+		texture->setMipMapLevel (level);
 
-		glBindTexture(texture->getTextureTarget(), texture->getTextureId());
-		glScalef(scaleFactor_, scaleFactor_, scaleFactor_);
-    }
+		glBindTexture (texture->getTextureTarget (),
+			       texture->getTextureId ());
+		glScalef (scaleFactor_, scaleFactor_, scaleFactor_);
+	}
 	else
-	{
-        if (!texturePtr_.isNull()) glDisable(texturePtr_->getTextureTarget());
-    }
-    texturePtr_ = texture;
+		if (!texturePtr_.isNull ())
+			glDisable (texturePtr_->getTextureTarget ());
+
+	texturePtr_ = texture;
 }
 
-Color LfDisplay::getDrawColor() const {
-	return( drawColor_ );
+Color
+LfDisplay::getDrawColor () const
+{
+	return drawColor_;
 }
 
-void LfDisplay::setDrawColor(const Color& c) {
-    setDrawColor(c.r, c.g, c.b, c.a);
+void
+LfDisplay::setDrawColor (const Color& c)
+{
+	setDrawColor (c.r, c.g, c.b, c.a);
 }
 
-void LfDisplay::setDrawColor(float r, float g, float b, float a) {
-	drawColor_.set(r, g, b, a);
-    glColor4f(r, g, b, a);
-}
-
-void LfDisplay::drawQuad(const Vec2f& vec1,
-					   const Vec2f& vec2,
-					   const Vec2f& vec3,
-					   const Vec2f& vec4 ) const {
-						   drawQuad(vec1, Color::white,
-							   vec2, Color::white,
-							   vec3, Color::white,
-							   vec4, Color::white);
+void
+LfDisplay::setDrawColor (float r,
+			 float g,
+			 float b,
+			 float a)
+{
+	drawColor_.set (r, g, b, a);
+	glColor4f (r, g, b, a);
 }
 
 void
 LfDisplay::drawQuad (const Vec2f& vec1,
-		       const Color& col1,
-		       const Vec2f& vec2,
-		       const Color& col2,
-                       const Vec2f& vec3,
-		       const Color& col3,
-                       const Vec2f& vec4,
-		       const Color& col4) const
+		     const Vec2f& vec2,
+		     const Vec2f& vec3,
+		     const Vec2f& vec4) const
 {
-	if  (texturePtr_.isNull())
+	drawQuad (vec1, Color::white,
+		  vec2, Color::white,
+		  vec3, Color::white,
+		  vec4, Color::white);
+}
+
+void
+LfDisplay::drawQuad (const Vec2f& vec1,
+		     const Color& col1,
+		     const Vec2f& vec2,
+		     const Color& col2,
+		     const Vec2f& vec3,
+		     const Color& col3,
+		     const Vec2f& vec4,
+		     const Color& col4) const
+{
+	if  (texturePtr_.isNull ())
 	{
 		glBegin (GL_QUADS);
-		setColor(col1);
-		glVertex2f(vec1.x, vec1.y);
-		setColor(col2);
-		glVertex2f(vec2.x, vec2.y);
-		setColor(col3);
-		glVertex2f(vec3.x, vec3.y);
-		setColor(col4);
-		glVertex2f(vec4.x, vec4.y);
-		glEnd();
+		setColor (col1);
+		glVertex2f (vec1.x, vec1.y);
+		setColor (col2);
+		glVertex2f (vec2.x, vec2.y);
+		setColor (col3);
+		glVertex2f (vec3.x, vec3.y);
+		setColor (col4);
+		glVertex2f (vec4.x, vec4.y);
+		glEnd ();
 	}
 	else
 	{
@@ -244,10 +275,12 @@ LfDisplay::drawQuad (const Vec2f& vec1,
 		const float theight (texturePtr_->getHeight ());
 
 		Vec2f texA (0.5f / twidth, 0.5f / theight);
-		Vec2f texB((2.0f * twidth - 1.0f) / (twidth * 2.0f),
-			0.5f / theight);
-		Vec2f texC((2.0f * twidth - 1.0f) / (twidth * 2.0f), (2.0f * theight - 1.0f) / (2.0f * theight));
-		Vec2f texD(0.5f / twidth, (2.0f * theight - 1.0f) / (2.0f * theight));
+		Vec2f texB ((2.0f * twidth - 1.0f) / (twidth * 2.0f),
+			    0.5f / theight);
+		Vec2f texC ((2.0f * twidth - 1.0f) / (twidth * 2.0f),
+			    (2.0f * theight - 1.0f) / (2.0f * theight));
+		Vec2f texD (0.5f / twidth,
+			    (2.0f * theight - 1.0f) / (2.0f * theight));
 
 		setColor (col1);
 		glBegin (GL_QUADS);
@@ -263,163 +296,182 @@ LfDisplay::drawQuad (const Vec2f& vec1,
 	}
 }
 
-void LfDisplay::drawRectWrapped(float x, float y, float width, float height) {
-    setColor(drawColor_);
-    const Vec2f mid(x + width / 2, y + height / 2);
-    Vec2f a(-width / 2, -height / 2);
-    Vec2f b(width / 2, -height / 2);
+void
+LfDisplay::drawRectWrapped (float x,
+			    float y,
+			    float width,
+			    float height)
+{
+	setColor (drawColor_);
+	const Vec2f mid (x + width / 2, y + height / 2);
+	Vec2f a (-width / 2, -height / 2);
+	Vec2f b (width / 2, -height / 2);
 
-	if (texturePtr_.isNull()) {
-        glBegin(GL_QUADS);
-        setVertex(mid + a);
-        setVertex(mid + b);
+	if (texturePtr_.isNull ())
+	{
+		glBegin (GL_QUADS);
+		setVertex(mid + a);
+		setVertex(mid + b);
 		setVertex(mid - a);
 		setVertex(mid - b);
-        glEnd();
-	} else {
-        const float maxS = texturePtr_->getMaxS();
-        const float maxT = texturePtr_->getMaxT();
+		glEnd ();
+	}
+	else
+	{
+		const float maxS = texturePtr_->getMaxS ();
+		const float maxT = texturePtr_->getMaxT ();
 
-		Vec2f texA(0, 0);
-        Vec2f texB(maxS, 0);
-		Vec2f texC(maxS, maxT);
-		Vec2f texD(0, maxT);
+		Vec2f texA (0, 0);
+		Vec2f texB (maxS, 0);
+		Vec2f texC (maxS, maxT);
+		Vec2f texD (0, maxT);
 
-        Vec2f vecA(mid + a);
-        Vec2f vecB(mid + b);
+		Vec2f vecA(mid + a);
+		Vec2f vecB(mid + b);
 		Vec2f vecC(mid - a);
 		Vec2f vecD(mid - b);
 
-		glTexParameteri(texturePtr_->getTextureTarget(), GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(texturePtr_->getTextureTarget(), GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri (texturePtr_->getTextureTarget (),
+				 GL_TEXTURE_WRAP_S,
+				 GL_REPEAT);
+		glTexParameteri (texturePtr_->getTextureTarget(),
+				 GL_TEXTURE_WRAP_T,
+				 GL_REPEAT);
 
-		glBegin(GL_QUADS);
-        setTexVertex(vecA, texA.x, texA.y );
-        setTexVertex(vecB, texB.x, texB.y );
-		setTexVertex(vecC, texC.x, texC.y );
-		setTexVertex(vecD, texD.x, texD.y );
-        glEnd();
+		glBegin (GL_QUADS);
+		setTexVertex (vecA, texA.x, texA.y);
+		setTexVertex (vecB, texB.x, texB.y);
+		setTexVertex (vecC, texC.x, texC.y);
+		setTexVertex (vecD, texD.x, texD.y);
+		glEnd ();
 
-		glTexParameteri(texturePtr_->getTextureTarget(), GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(texturePtr_->getTextureTarget(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    } 
+		glTexParameteri (texturePtr_->getTextureTarget (),
+				 GL_TEXTURE_WRAP_S,
+				 GL_CLAMP_TO_EDGE);
+		glTexParameteri (texturePtr_->getTextureTarget (),
+				 GL_TEXTURE_WRAP_T,
+				 GL_CLAMP_TO_EDGE);
+	}
 }
 
-void LfDisplay::drawRectangleMapped(float x, float y, float width, float height, float angle) {
-    setColor(drawColor_);
+void
+LfDisplay::drawRectangleMapped (float x,
+				float y,
+				float width,
+				float height,
+				float angle)
+{
+	setColor (drawColor_);
 
-    const Vec2f mid(x + width / 2, y + height / 2);
-    Vec2f a(-width / 2, -height / 2);
-    Vec2f b(width / 2, -height / 2);
-    a.rotate(angle);
-    b.rotate(angle);
+	const Vec2f mid (x + width / 2, y + height / 2);
+	Vec2f a(-width / 2, -height / 2);
+	Vec2f b(width / 2, -height / 2);
+	a.rotate (angle);
+	b.rotate (angle);
 
-	if (texturePtr_.isNull())
+	if (texturePtr_.isNull ())
 	{
-        glBegin(GL_QUADS);
-        setVertex(mid + a);
-        setVertex(mid + b);
-		setVertex(mid - a);
-		setVertex(mid - b);
-        glEnd();
-
+		glBegin (GL_QUADS);
+		setVertex (mid + a);
+		setVertex (mid + b);
+		setVertex (mid - a);
+		setVertex (mid - b);
+		glEnd ();
 	}
 	else
 	{
 		float texSize = width / texturePtr_->getWidth ();
-		setTexture( texturePtr_, texSize );
+		setTexture (texturePtr_, texSize);
 
-		const float maxS = texturePtr_->getMaxS();
-        const float maxT = texturePtr_->getMaxT();
+		const float maxS = texturePtr_->getMaxS ();
+		const float maxT = texturePtr_->getMaxT();
 		const float tWidth = texturePtr_->getWidth();
 		const float tHeight = texturePtr_->getHeight();
 		Vec2f texA( 0.0 / tWidth, 0.0 / tHeight );
-        Vec2f texB( maxS - 0.0 / tWidth, 0.0 / tHeight );
+		Vec2f texB( maxS - 0.0 / tWidth, 0.0 / tHeight );
 		Vec2f texC( maxS - 0.0 / tWidth, maxT - 0.0 / tHeight );
 		Vec2f texD( 0.0 / tWidth, maxT - 0.0 / tHeight);
 
-        Vec2f vecA(mid + a);
-        Vec2f vecB(mid + b);
-		Vec2f vecC(mid - a);
-		Vec2f vecD(mid - b);
+		Vec2f vecA (mid + a);
+		Vec2f vecB (mid + b);
+		Vec2f vecC (mid - a);
+		Vec2f vecD (mid - b);
 
+		glBegin (GL_QUADS);
+		setTexVertex (vecA, texA.x, texA.y);
+		setTexVertex (vecB, texB.x, texB.y);
+		setTexVertex (vecC, texC.x, texC.y);
+		setTexVertex (vecD, texD.x, texD.y);
+		glEnd ();
 
-		glBegin(GL_QUADS);
-        setTexVertex(vecA, texA.x, texA.y );
-        setTexVertex(vecB, texB.x, texB.y );
-		setTexVertex(vecC, texC.x, texC.y );
-		setTexVertex(vecD, texD.x, texD.y );
-        glEnd();
-
-		if(texturePtr_->isFiltered())
+		if (texturePtr_->isFiltered ())
 		{
-			texA = Vec2f ( 0.5 / tWidth, 0.5 / tHeight );
-			texB = Vec2f ( maxS - 0.5 / tWidth, 0.5 / tHeight );
-			texC = Vec2f ( maxS - 0.5 / tWidth, maxT - 0.5 / tHeight );
-			texD = Vec2f ( 0.5 / tWidth, maxT - 0.5 / tHeight);
+			texA = Vec2f (0.5 / tWidth, 0.5 / tHeight);
+			texB = Vec2f (maxS - 0.5 / tWidth, 0.5 / tHeight);
+			texC = Vec2f (maxS - 0.5 / tWidth, maxT - 0.5 / tHeight);
+			texD = Vec2f (0.5 / tWidth, maxT - 0.5 / tHeight);
 
-			drawLine( vecA, vecB, texA, texB );
-			drawLine( vecB, vecC, texB, texC );
-			drawLine( vecC, vecD, texC, texD );
-			drawLine( vecD, vecA, texD, texA );
+			drawLine (vecA, vecB, texA, texB);
+			drawLine (vecB, vecC, texB, texC);
+			drawLine (vecC, vecD, texC, texD);
+			drawLine (vecD, vecA, texD, texA);
 		}
-    } 
+	}
 }
 
-void LfDisplay::drawLine( const Vec2f& point1,
-						const Vec2f& point2 ) const
+void
+LfDisplay::drawLine (const Vec2f& point1,
+		     const Vec2f& point2) const
 {
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	glTranslatef( translationVector_.x, translationVector_.y, 0.0f );
-	glRotatef( rotationAngle_, 0.0, 0.0, 1.0 );
-	glColor4f( drawColor_.r,
-			   drawColor_.g,
-			   drawColor_.b,
-			   drawColor_.a );
-	glScalef( scaleFactor_, scaleFactor_, scaleFactor_ );
-	glBegin( GL_LINES );
-	glVertex2f( point1.x, point1.y );
-	glVertex2f( point2.x, point2.y );
-	glEnd();
+	glMatrixMode (GL_MODELVIEW);
+	glLoadIdentity ();
+	glTranslatef (translationVector_.x, translationVector_.y, 0.0f );
+	glRotatef (rotationAngle_, 0.0, 0.0, 1.0 );
+	glColor4f (drawColor_.r, drawColor_.g, drawColor_.b, drawColor_.a);
+	glScalef (scaleFactor_, scaleFactor_, scaleFactor_);
+	glBegin (GL_LINES);
+	glVertex2f (point1.x, point1.y);
+	glVertex2f (point2.x, point2.y);
+	glEnd ();
 }
 
-void LfDisplay::drawLine( const Vec2f& point1,
-						const Vec2f& point2,
-						const Vec2f& tex1,
-						const Vec2f& tex2
-						) const
+void
+LfDisplay::drawLine (const Vec2f& point1,
+		     const Vec2f& point2,
+		     const Vec2f& tex1,
+		     const Vec2f& tex2) const
 {
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
-	glTranslatef( translationVector_.x, translationVector_.y, 0.0f );
-	glRotatef( rotationAngle_, 0.0, 0.0, 1.0 );
-	glColor4f( drawColor_.r,
-			   drawColor_.g,
-			   drawColor_.b,
-			   drawColor_.a );
-	glScalef( scaleFactor_, scaleFactor_, scaleFactor_ );
-	glBegin( GL_LINES );
-	setTexVertex( point1, tex1.x, tex1.y );
-	setTexVertex( point2, tex2.x, tex2.y );
-	glEnd();
+	glMatrixMode (GL_MODELVIEW);
+	glLoadIdentity ();
+	glTranslatef (translationVector_.x, translationVector_.y, 0.0f);
+	glRotatef (rotationAngle_, 0.0, 0.0, 1.0);
+	glColor4f (drawColor_.r, drawColor_.g, drawColor_.b, drawColor_.a);
+	glScalef (scaleFactor_, scaleFactor_, scaleFactor_);
+	glBegin (GL_LINES);
+	setTexVertex (point1, tex1.x, tex1.y);
+	setTexVertex (point2, tex2.x, tex2.y);
+	glEnd ();
 }
 
 
-void LfDisplay::clear() const {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void
+LfDisplay::clear () const
+{
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void LfDisplay::flip() const {
-	SDL_GL_SwapBuffers();
+void
+LfDisplay::flip () const
+{
+	SDL_GL_SwapBuffers ();
 }
 
 LfDisplay::LfDisplay (std::string title,
-			  float width,
-			  float height,
-			  bool fullscreen,
-			  int argc,
-			  char** argv)
+		      float width,
+		      float height,
+		      bool fullscreen,
+		      int argc,
+		      char** argv)
 {
 	title_ = title;
 	width_ = (int) width;
@@ -430,18 +482,20 @@ LfDisplay::LfDisplay (std::string title,
 
 	SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
 	SDL_WM_SetCaption (title_.c_str(), NULL);
-	SDL_GL_SetAttribute (SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute (SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute (SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute (SDL_GL_RED_SIZE, 5);
+	SDL_GL_SetAttribute (SDL_GL_GREEN_SIZE, 6);
+	SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 5);
+	//SDL_GL_SetAttribute (SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 
 	surfaceLfDisplayPtr_ = SDL_SetVideoMode (width_,
-						   height_,
-						   0,
-						   SDL_OPENGL |
-						   SDL_NOFRAME |
-						   (fullscreenFlag_ ? SDL_FULLSCREEN : SDL_RESIZABLE));
+						 height_,
+						 0,
+						 SDL_OPENGL |
+						 SDL_NOFRAME |
+						 (fullscreenFlag_ ?
+						  SDL_FULLSCREEN :
+						  SDL_RESIZABLE));
 
 	if (!surfaceLfDisplayPtr_)
 	{
@@ -481,7 +535,7 @@ LfDisplay::LfDisplay (std::string title,
 
 void
 LfDisplay::setSize (int w,
-		      int h)
+		    int h)
 {
 	width_ = w;
 	height_ = h;
@@ -557,7 +611,7 @@ static const float hGap (3);
 static const float vGap (4);
 
 Vec2f
-LfDisplay::getTextSize(const char* text) const
+LfDisplay::getTextSize (const char* text) const
 {
 	float totalWidth (0);
 	const char* p = text;
@@ -585,7 +639,7 @@ LfDisplay::getTextSize(const char* text) const
 
 void
 LfDisplay::drawText (const Vec2f& origin,
-		       const std::string& strtext)
+		     const std::string& strtext)
 {
 	const char* text = strtext.c_str ();
 	setTexture (font_.getTexture ());
