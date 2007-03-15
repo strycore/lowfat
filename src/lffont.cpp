@@ -136,3 +136,4 @@ LfFont::getTexture () const
 {
 	return fontTexture_;
 }
+

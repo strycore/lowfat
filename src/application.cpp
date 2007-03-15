@@ -509,7 +509,7 @@ Application::run ()
 		// draw the whole screen/desktop/window
 		advance (SDL_GetTicks ());
 		TimeEvent timeEvent;
-		timeEvent.time = SDL_GetTicks ();	
+		timeEvent.time = SDL_GetTicks ();
 		const float delta ((timeEvent.time - lastTime) / 1000.0f);
 		mouseMoveBuffer.add (mouseX - lastX, mouseY - lastY, delta);
 		lastX = mouseX;
@@ -527,3 +527,4 @@ Application::getAverageMouseMoveVelocity ()
 {
 	return mouseMoveBuffer.getVelocity ();
 }
+

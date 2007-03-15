@@ -315,21 +315,22 @@ void Lowfat::displayLoadImages()
     }
 }
 
-void Lowfat::paint(LfDisplay& display)
+void
+Lowfat::paint (LfDisplay& display)
 {
 	static std::list<unsigned int> fpsCount;
 
-	background_->paint( display );
+	background_->paint (display);
 
-	Application::paint( display );
+	Application::paint (display);
 
-	if(enableSelection_)
-		selection_->paint( display );
+	if (enableSelection_)
+		selection_->paint (display);
 
-	unsigned int time = SDL_GetTicks(); 
-	fpsCount.push_back( time );
+	unsigned int time = SDL_GetTicks ();
+	fpsCount.push_back (time);
 	std::list<unsigned int> fpsTemp;
-	for (std::list<unsigned int>::iterator it = fpsCount.begin();
+	for (std::list<unsigned int>::iterator it = fpsCount.begin ();
 		it != fpsCount.end(); ++it)
 	{
 		if((*it) >= time - 1000 )
@@ -357,7 +358,6 @@ void Lowfat::paint(LfDisplay& display)
 		display.drawText(origin - shadowDist,
 				info_.c_str());
 
-
 		origin = Vec2f(display.getWidth() - 220, gap.y);
 		char strFps[200];
 		int fps = fpsCount.size();
@@ -367,11 +367,11 @@ void Lowfat::paint(LfDisplay& display)
 		stats += "\nLoaded Images: ";
 		sprintf (strFps, "%d", getImages().size());
 		stats += strFps;
-		
+
 		stats += "\nfpsCount length: ";
 		sprintf (strFps, "%d", fpsCount.size());
 		stats += strFps;
-	
+
 		display.setDrawColor(Color(shadowIntensity, shadowIntensity, shadowIntensity, 1));
 		display.drawText(origin,
 				stats.c_str());
@@ -382,83 +382,102 @@ void Lowfat::paint(LfDisplay& display)
 
 }
 
-void Lowfat::onMouseButton(int x, int y, int button, bool isDown)
+void
+Lowfat::onMouseButton (int x,
+		       int y,
+		       int button,
+		       bool isDown)
 {
 }
 
-void Lowfat::onMouseMove(int x, int y)
+void
+Lowfat::onMouseMove (int x,
+		     int y)
 {
-    mouseX_ = x;
-    mouseY_ = y;
+	mouseX_ = x;
+	mouseY_ = y;
 }
 
-void Lowfat::onKey(int key, bool isDown)
+void
+Lowfat::onKey (int key,
+	       bool isDown)
 {
-	if (isDown) {
-        switch (key) {
-        case Key::l:
-			{
-				displayLoadImages();
-            }
-            break;
-		case Key::i:
-			showInfo_ = !showInfo_;
+	if (isDown)
+	{
+		switch (key)
+		{
+			case Key::l:
+				displayLoadImages ();
 			break;
-        case Key::q:
-        case Key::escape:
-            quit();
-        default:
-            break;
-        };
-    };
+
+			case Key::i:
+				showInfo_ = !showInfo_;
+			break;
+
+			case Key::q:
+			case Key::escape:
+				quit ();
+			break;
+
+			default:
+			break;
+		};
+	};
 }
 
-BackgroundPtr Lowfat::getBackground()
+BackgroundPtr
+Lowfat::getBackground ()
 {
 	return background_;
 }
 
-SelectionPtr Lowfat::getSelection()
+SelectionPtr
+Lowfat::getSelection ()
 {
 	return selection_;
 }
 
-void Lowfat::enableSelection( bool enable )
+void
+Lowfat::enableSelection (bool enable)
 {
 	enableSelection_ = enable;
 }
 
-bool Lowfat::hasSelection()
+bool
+Lowfat::hasSelection ()
 {
 	return enableSelection_;
 }
 
-void Lowfat::advance(unsigned int t) {  
-	Application::advance(t);
+void
+Lowfat::advance (unsigned int t)
+{
+	Application::advance (t);
 
-	ImagePtr image(getImage(mouseX_, mouseY_));
-	if (!image.isNull()) {
+	ImagePtr image (getImage (mouseX_, mouseY_));
+	if (!image.isNull ())
+	{
 		strstream buf;
-		buf << "Name:  " << image->getFilename()
+		buf << "Name:  " << image->getFilename ()
 		<< "\n"
-		<< "Size:    " << image->getDefaultSize()
+		<< "Size:    " << image->getDefaultSize ()
 		<< "\n"
-		<< "Date:   " << image->getDate()
+		<< "Date:   " << image->getDate ()
 		<< '\0';
 
 		lastSelect_ = t;
-		info_ = buf.str();
+		info_ = buf.str ();
 	}
 
-	const int delta(t - lastSelect_);
-	const int fadeTime(500);
-	if (delta > fadeTime) {
+	const int delta (t - lastSelect_);
+	const int fadeTime (500);
+	if (delta > fadeTime)
 		infoAlpha_ = 0;
-	} else {
+	else
 		infoAlpha_ = 1.0f - ((float) delta / fadeTime);
-	}
  
-	trashcan_->realAdvance((t - lastTime_) / 1000.0f);
-	trashcanFront_->realAdvance((t - lastTime_) / 1000.0f);
+	trashcan_->realAdvance ((t - lastTime_) / 1000.0f);
+	trashcanFront_->realAdvance ((t - lastTime_) / 1000.0f);
 	lastTime_ = t;
 }
+

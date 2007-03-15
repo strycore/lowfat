@@ -69,11 +69,11 @@ GuiObserverSubject::updateMouseMove (const MouseEvent& e)
 			return;
 }
 
-GuiObserverSubject::GuiObserverSubject()
+GuiObserverSubject::GuiObserverSubject ()
 {
 }
 
-GuiObserverSubject::~GuiObserverSubject()
+GuiObserverSubject::~GuiObserverSubject ()
 {
 }
 
@@ -106,3 +106,4 @@ GuiObserverSubject::updateTime (const TimeEvent& e)
 		if (!(*it)->onTime (e))
 			return;
 }
+

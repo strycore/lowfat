@@ -23,7 +23,7 @@
 
 #include "include/date.h"
 
-Date::~Date()
+Date::~Date ()
 {
 }
 
@@ -46,3 +46,4 @@ operator<<(std::ostream& s,
 
 	return s;
 }
+

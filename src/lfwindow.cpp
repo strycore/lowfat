@@ -33,7 +33,7 @@
 #include "include/photo_observer.h"
 
 using std::list;
- 
+
 static const float gap (16);
 static const float maximal (8);
 
@@ -176,19 +176,19 @@ LfWindow::realSort (ImageSeq& images,
 	switch (mode)
 	{
 		case nameSortMode:
-			std::sort (images.begin (), images.end (), sortByName);	
+			std::sort (images.begin (), images.end (), sortByName);
 		break;
 
 		case aspectRatioSortMode:
 			std::sort (images.begin (),
 				   images.end (),
-				   sortByAspectRatio);	
+				   sortByAspectRatio);
 		break;
 
 		case dateSortMode:
 			std::sort (images.begin (),
 				   images.end (),
-				   sortByDate);	
+				   sortByDate);
 		break;
 
 		default:
@@ -277,10 +277,10 @@ LfWindow::paint (LfDisplay& display)
 		if (!(*it)->getStatus () == Image::normalStatus)
 			(*it)->paint (display);
 
-	for (ImageSeq::iterator it(images_.begin ());
-	     it != images_.end();)
+	for (ImageSeq::iterator it (images_.begin ());
+	     it != images_.end ();)
 	{
-		if ((*it)->getStatus() == Image::deleteMeStatus) 
+		if ((*it)->getStatus() == Image::deleteMeStatus)
 		{
 			images_.erase(it);
 			it = images_.begin();
@@ -322,7 +322,7 @@ LfWindow::setImages (const ImageList& list)
 
 	for (ImageList::const_iterator it (list.begin ());
 	     it != list.end();
-	     ++it) 
+	     ++it)
 		images_.push_back (*it);
 }
 
@@ -333,7 +333,7 @@ LfWindow::getImages () const
 
 	for (ImageSeq::const_iterator it (images_.begin ());
 	     it != images_.end();
-	     ++it) 
+	     ++it)
 		list.push_back (*it);
 
 	return list;
@@ -348,5 +348,5 @@ LfWindow::advance (unsigned int t)
 	{
 		ImagePtr image (*it);
 		image->advance (t);
-	}        
+	}
 }

@@ -426,90 +426,98 @@ bool PhotoObserver::onMouseMove(const MouseEvent& e)
 	return process;
 }
 
-
-bool PhotoObserver::onKeyPress(const KeyEvent& e)
+bool
+PhotoObserver::onKeyPress (const KeyEvent& e)
 {
 	bool process = true;
 	std::list<ImagePtr>::iterator it;
 
-	Vec2f topLeft, bottomRight;
+	Vec2f topLeft;
+	Vec2f bottomRight;
 
-	switch(e.key)
+	switch (e.key)
 	{
-	case Key::r: 
-		for (it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
-		{
-			ImagePtr image(*it);
-			image->setLocation(400, 500);
-			image->setRotation(0);
+		case Key::r:
+			for (it = selectedList_.begin ();
+			     it != selectedList_.end ();
+			     ++it)
+			{
+				ImagePtr image (*it);
+				image->setLocation (400, 500);
+				image->setRotation (0);
 			}
-		
 		break;
 
-	case Key::t: 
-		for (it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
-		{
-			ImagePtr image(*it);
-			image->setLocation(400, 50);
-			image->setRotation(0);
+		case Key::t:
+			for (it = selectedList_.begin ();
+			     it != selectedList_.end ();
+			     ++it)
+			{
+				ImagePtr image (*it);
+				image->setLocation (400, 50);
+				image->setRotation (0);
 			}
-		
 		break;
 
-	case Key::s:
+		case Key::s:
 		{
-			selectionToFront();
-			parent_->sort(LfWindow::nameSortMode, parent_->photoObserver_->getSelection() );
+			selectionToFront ();
+			parent_->sort (LfWindow::nameSortMode,
+				       parent_->photoObserver_->getSelection ());
 			break;
 		}
-    case Key::a:
+
+		case Key::a:
 		{
-		selectionToFront();
-		parent_->sort(LfWindow::aspectRatioSortMode, parent_->photoObserver_->getSelection());
-		break;
-		}
-	case Key::d:
-		{
-			selectionToFront();
-			parent_->sort(LfWindow::dateSortMode, parent_->photoObserver_->getSelection());
+			selectionToFront ();
+			parent_->sort (LfWindow::aspectRatioSortMode,
+				       parent_->photoObserver_->getSelection ());
 			break;
 		}
-    case Key::del:
-        break;
-	case Key::left:
-		for (it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
+
+		case Key::d:
 		{
-			if(shift_)
-			{
-				int times = ( int ) (((*it)->getRotation() - 45.1 ) / 45);
-				(*it)->setRotation( times * 45 );
-			}
-			else
-			{
-				(*it)->setRotation( (*it)->getRotation() - 1 );
-			}
+			selectionToFront ();
+			parent_->sort (LfWindow::dateSortMode,
+				       parent_->photoObserver_->getSelection ());
+			break;
 		}
-		process = false;
+
+		case Key::del:
 		break;
-	case Key::right:
-		for (it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
-		{
-			if(shift_)
+
+		case Key::left:
+			for (it = selectedList_.begin ();
+			     it != selectedList_.end ();
+			     ++it)
 			{
-				int times = ( int ) (((*it)->getRotation() + 45) / 45);
-				(*it)->setRotation( times * 45 );
+				if (shift_)
+				{
+					int times = (int) (((*it)->getRotation () - 45.1) / 45);
+					(*it)->setRotation (times * 45);
+				}
+				else
+					(*it)->setRotation ((*it)->getRotation () - 1);
 			}
-			else
-			{
-				(*it)->setRotation( (*it)->getRotation() + 1 );
-			}
-		}
-		process = false;
+			process = false;
 		break;
+
+		case Key::right:
+			for (it = selectedList_.begin ();
+			     it != selectedList_.end ();
+			     ++it)
+			{
+				if (shift_)
+				{
+					int times = (int) (((*it)->getRotation () + 45) / 45);
+					(*it)->setRotation (times * 45);
+				}
+				else
+					(*it)->setRotation ((*it)->getRotation () + 1);
+			}
+			process = false;
+		break;
+
 	case Key::up:
 		{
 			float angle = 1.0;
@@ -578,56 +586,69 @@ bool PhotoObserver::onKeyPress(const KeyEvent& e)
 		selectionToFront();
 		break;
     };
+
 	return process;
 }
 
-void PhotoObserver::deleteImage(ImagePtr image) {
-	deletedList_.push_back( image );
-	image->setHighlight( true, SDL_GetTicks(), outFade );
-	image->setFade( true, SDL_GetTicks(), outFade );
-	for (std::list<ImagePtr>::iterator it = selectedList_.begin();
-		it != selectedList_.end(); ++it)
-	{
-		if ((*it) == image) selectedList_.erase(it);
-	}
+void
+PhotoObserver::deleteImage (ImagePtr image)
+{
+	deletedList_.push_back (image);
+	image->setHighlight (true, SDL_GetTicks (), outFade);
+	image->setFade (true, SDL_GetTicks (), outFade);
+
+	for (std::list<ImagePtr>::iterator it = selectedList_.begin ();
+	     it != selectedList_.end();
+	     ++it)
+		if ((*it) == image)
+			selectedList_.erase (it);
 }
 
-bool PhotoObserver::onKeyRelease(const KeyEvent& e)
+bool
+PhotoObserver::onKeyRelease (const KeyEvent& e)
 {
-    std::list<ImagePtr>::iterator it;
+	std::list<ImagePtr>::iterator it;
 
-	switch(e.key)
+	switch (e.key)
 	{
-    case Key::del:
-		for (it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
-		{
-			ImagePtr image = (*it);
-			image->setTransition(parent_->getTrashCanLocation() - Vec2f(7, 2), Vec2f(10, 10), 0, true);
-			deletedList_.push_back( image );
-		}
-		selectedList_.clear();
-        break;
-	case Key::left:
+		case Key::del:
+			for (it = selectedList_.begin ();
+			     it != selectedList_.end ();
+			     ++it)
+			{
+				ImagePtr image = (*it);
+				image->setTransition (parent_->getTrashCanLocation () - Vec2f(7, 2),
+						      Vec2f(10, 10),
+						      0,
+						      true);
+				deletedList_.push_back (image);
+			}
+			selectedList_.clear ();
 		break;
-	case Key::shift:
-		shift_ = false;
+
+		case Key::left:
 		break;
-    };
+
+		case Key::shift:
+			shift_ = false;
+		break;
+	};
+
 	return true;
 }
 
-bool PhotoObserver::onTime( const TimeEvent& e )
+bool
+PhotoObserver::onTime (const TimeEvent& e)
 {
-	std::list<ImagePtr>::iterator it = deletedList_.begin();
-	while(it != deletedList_.end())
+	std::list<ImagePtr>::iterator it = deletedList_.begin ();
+	while (it != deletedList_.end ())
 	{
-		if(!(*it)->isVisible())
+		if (!(*it)->isVisible ())
 		{
 			ImagePtr image = (*it);
-			deletedList_.remove(image);
-			parent_->removeImage(image);
-			it = deletedList_.begin();
+			deletedList_.remove (image);
+			parent_->removeImage (image);
+			it = deletedList_.begin ();
 		}
 		it++;
 	}
@@ -635,16 +656,21 @@ bool PhotoObserver::onTime( const TimeEvent& e )
 	return true;
 }
 
-void PhotoObserver::setDynamic(float d) {
+void
+PhotoObserver::setDynamic (float d)
+{
 	dynamic_ = d;
 }
 
-std::list<ImagePtr>& PhotoObserver::getSelection()
+std::list<ImagePtr>&
+PhotoObserver::getSelection ()
 {
 	return selectedList_;
 }
 
-int PhotoObserver::max (int a, int b)
+int
+PhotoObserver::max (int a,
+		    int b)
 {
 	if (a < b)
 		return b;
@@ -652,7 +678,9 @@ int PhotoObserver::max (int a, int b)
 		return a;
 }
 
-int PhotoObserver::min (int a, int b)
+int
+PhotoObserver::min (int a,
+		    int b)
 {
 	if (a > b)
 		return b;
@@ -660,7 +688,9 @@ int PhotoObserver::min (int a, int b)
 		return a;
 }
 
-float PhotoObserver::max (float a, float b)
+float
+PhotoObserver::max (float a,
+		    float b)
 {
 	if (a < b)
 		return b;
@@ -668,7 +698,9 @@ float PhotoObserver::max (float a, float b)
 		return a;
 }
 
-float PhotoObserver::min (float a, float b)
+float
+PhotoObserver::min (float a,
+		    float b)
 {
 	if (a > b)
 		return b;
@@ -676,96 +708,102 @@ float PhotoObserver::min (float a, float b)
 		return a;
 }
 
-float PhotoObserver::clamp (float x)
+float
+PhotoObserver::clamp (float x)
 {
 	return min (max (x, 0.0f), 1.0f);
 }
 
-void PhotoObserver::handleTrashcanSaug(ImagePtr image, const Vec2f& mouse)
+void
+PhotoObserver::handleTrashcanSaug (ImagePtr image,
+				   const Vec2f& mouse)
 {
-	Vec2f trashcanOrigin(parent_->getTrashCanLocation());
-	const float dist(length(mouse - trashcanOrigin));
+	Vec2f trashcanOrigin (parent_->getTrashCanLocation ());
+	const float dist (length (mouse - trashcanOrigin));
 
-	const float maxDimension(max(image->getWidth(), image->getHeight()));
-	const float minSize(50.0f);
-	float minFactor(minSize / max(maxDimension, minSize));
+	const float maxDimension (max (image->getWidth (), image->getHeight ()));
+	const float minSize (50.0f);
+	float minFactor (minSize / max(maxDimension, minSize));
 
 	float n = (dist - innerTrashcanSaugDist) /
 			    (outerTrashcanSaugDist - innerTrashcanSaugDist);
-	n = clamp(n);
-	const float factor(minFactor + (1.0f - minFactor) * n);
-	image->setSizeFactor(factor);
+	n = clamp (n);
+	const float factor (minFactor + (1.0f - minFactor) * n);
+	image->setSizeFactor (factor);
 }
 
-void PhotoObserver::onMouseDrag(const MouseEvent& e)
+void
+PhotoObserver::onMouseDrag (const MouseEvent& e)
 {
-	Vec2f src(lastX_, lastY_);
-	Vec2f dst(e.x, e.y);
+	Vec2f src (lastX_, lastY_);
+	Vec2f dst (e.x, e.y);
 
-	if (((selectedList_.size() > 1) && !g_b_funMode) || noRotate_)
+	if (((selectedList_.size () > 1) && !g_b_funMode) || noRotate_)
 	{
-		for (std::list<ImagePtr>::iterator it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
+		for (std::list<ImagePtr>::iterator it = selectedList_.begin ();
+			it != selectedList_.end (); ++it)
 		{
-			ImagePtr image(*it);
-			image->setLocation(image->getLocation() + dst - src);
-			image->setVelocity(Vec2f());
-			image->setRotationVelocity(0);
-			handleTrashcanSaug(image, Vec2f(e.x, e.y));
+			ImagePtr image (*it);
+			image->setLocation (image->getLocation () + dst - src);
+			image->setVelocity (Vec2f ());
+			image->setRotationVelocity (0);
+			handleTrashcanSaug (image, Vec2f (e.x, e.y));
 			image->vr_ = 0;
-			image->v_ = Vec2f();
-			image->setDragPoint(SharedPtr<Vec2f>(0));
+			image->v_ = Vec2f ();
+			image->setDragPoint (SharedPtr<Vec2f>(0));
 			image->dragPoint2_ = dst;
 		}
 	}
 	else
 	{
-		for (std::list<ImagePtr>::iterator it = selectedList_.begin();
-			it != selectedList_.end(); ++it)
+		for (std::list<ImagePtr>::iterator it = selectedList_.begin ();
+			it != selectedList_.end (); ++it)
 		{
 			ImagePtr image = (*it);
 
-			SharedPtr<Vec2f> dragPoint(new Vec2f(e.x, e.y));
-			image->setDragPoint(dragPoint);
+			SharedPtr<Vec2f> dragPoint (new Vec2f (e.x, e.y));
+			image->setDragPoint (dragPoint);
 			image->dragPoint2_ = dst;
-			handleTrashcanSaug(image, Vec2f(e.x, e.y));
+			handleTrashcanSaug (image, Vec2f(e.x, e.y));
 		}
 	}
-
-
 }
 
-void PhotoObserver::RotateSelection( float angle )
+void
+PhotoObserver::RotateSelection (float angle)
 {
 	std::list<ImagePtr>::iterator it;
-	Vec2f rotationMid(0,0);
+	Vec2f rotationMid (0,0);
 	int count = 0;
-	for (it = selectedList_.begin();
-		it != selectedList_.end(); ++it)
+
+	for (it = selectedList_.begin ();
+	     it != selectedList_.end();
+	     ++it)
 	{
-		rotationMid += (*it)->getLocation();
+		rotationMid += (*it)->getLocation ();
 		count ++;
 	}
+
 	rotationMid /= count;
-	for (it = selectedList_.begin();
-		it != selectedList_.end(); ++it)
+	for (it = selectedList_.begin ();
+		it != selectedList_.end (); ++it)
 	{
-		Vec2f relativePos = (*it)->getLocation() - rotationMid;
+		Vec2f relativePos = (*it)->getLocation () - rotationMid;
 		Vec2f rotatedPos = relativePos;
-		rotatedPos.rotate( angle );
+		rotatedPos.rotate (angle);
 		Vec2f diff = relativePos - rotatedPos;
-		(*it)->setLocation( (*it)->getLocation() - diff );
-		(*it)->setRotation( (*it)->getRotation() + angle );
+		(*it)->setLocation ((*it)->getLocation () - diff);
+		(*it)->setRotation ((*it)->getRotation () + angle);
 	}
 }
 
-void PhotoObserver::selectionToFront()
+void
+PhotoObserver::selectionToFront ()
 {
-	for (std::list<ImagePtr>::iterator it = selectedList_.begin();
-		it != selectedList_.end(); ++it)
-	{
-		parent_->toFront(*it);
-	}
+	for (std::list<ImagePtr>::iterator it = selectedList_.begin ();
+	     it != selectedList_.end ();
+	     ++it)
+		parent_->toFront (*it);
 }
 
 

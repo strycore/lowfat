@@ -150,7 +150,7 @@ stripPath (const string& filename)
 		filename.substr (idx + 1, filename.size ()) :
 		filename;
 }
-	
+
 ImagePtr
 Image::clone () const
 {
@@ -343,7 +343,7 @@ Image::setTransition (const Vec2f& dstPos,
 	if ((dstAngle - getRotation ()) > 180)
 		dstAngle -= 360;
 	else if ((getRotation () - dstAngle) > 180)
-		dstAngle += 360; 
+		dstAngle += 360;
 
 	if (doTheTrashCan_)
 		dstAngle += 360.0f * (2.0f + random_ * 2.0f);
@@ -413,7 +413,7 @@ Image::drawShadow (const Vec2f& origin,
 		Vec2f location (origin);
 
 		display.setTexture (TexturePtr (0));
-		
+
 		const Color color (0.0f,
 				   0.0f,
 				   0.0f,
@@ -441,7 +441,7 @@ Image::drawShadow (const Vec2f& origin,
 		Vec2f bl = location +
 			   (shadowWidth - shadowHeight) / 2.0 +
 			   (- width + height) *
-			   shadowSize ;
+			   shadowSize;
 
 		display.drawQuad (tl + direction,
 				  color,
@@ -549,7 +549,7 @@ Image::drawBorder (const Vec2f& origin,
 		Vec2f location (origin);
 
 		display.setTexture (TexturePtr (0));
-		Color in (0.0f, 0.0f, 0.0f, 0.25f * fadeAlpha_ * highlightAlpha_); 
+		Color in (0.0f, 0.0f, 0.0f, 0.25f * fadeAlpha_ * highlightAlpha_);
 		Color out (0.0f, 0.0f, 0.0f, 0.0f * fadeAlpha_ * highlightAlpha_);
 
 		for (int i = 0; i < 2; i++)
@@ -659,15 +659,15 @@ bool
 Image::isInside (int x,
 		 int y) const
 {
-    Vec2f p (x, y);
-    p -= getLocation ();
-    p.rotate (-rotation_);
-    p += getLocation ();
+	Vec2f p (x, y);
+	p -= getLocation ();
+	p.rotate (-rotation_);
+	p += getLocation ();
 
-    return p.x >= getX () - getWidth () / 2.0f &&
-           p.x < getX () + getWidth () / 2.0f &&
-           p.y >= getY () - getHeight () / 2.0f &&
-           p.y < getY () + getHeight () / 2.0f;
+	return p.x >= getX () - getWidth () / 2.0f &&
+	       p.x < getX () + getWidth () / 2.0f &&
+	       p.y >= getY () - getHeight () / 2.0f &&
+	       p.y < getY () + getHeight () / 2.0f;
 }
 
 void
@@ -875,7 +875,7 @@ Image::advance (unsigned int t)
 				maxDim = (rand() % 1000) + 100;
 
 			Vec2f f = (dm - v_) * M / maxDim;
-			ld = m_ - getLocation ();		
+			ld = m_ - getLocation ();
 			torque = calcTorque (ld, f);
 			v_ = dm;
 			move (v_, delta);
@@ -947,7 +947,6 @@ Image::getPath () const
 {
 	return path_;
 }
-
 
 void
 Image::setHeight (float height)
@@ -1071,7 +1070,6 @@ Image::isVisible ()
 	return (fadeAlpha_ != 0);
 }
 
-
 static bool
 IntersectLine (Vec2f a1,
 	       Vec2f a2,
@@ -1134,7 +1132,7 @@ Image::intersectBox (Vec2f topLeft,
 		inside++;
 
 	if (isInside ((int) start.x, (int) end.y))
-		inside++;
+		inside++;
 	if (isInside ((int) end.x, (int) start.y))
 		inside++;
 
@@ -1229,3 +1227,4 @@ Image::setVelocity (Vec2f velocity)
 {
 	velocity_ = velocity;
 }
+

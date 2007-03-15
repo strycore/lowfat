@@ -36,3 +36,4 @@ const Color Color::pink (1.0f, 0.7f, 0.7f);
 const Color Color::orange (1.0f, 0.8f, 0.0f);
 const Color Color::magenta (1.0f, 0.0f, 1.0f);
 const Color Color::cyan (0.0f, 1.0f, 1.0f);
+

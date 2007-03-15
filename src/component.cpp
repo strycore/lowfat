@@ -77,10 +77,8 @@ void
 Component::setLocation (float x,
 			float y)
 {
-	if((x != location_.x) || (y != location_.y))
-	{
-	    setLocation (Vec2f(x, y));
-	}
+	if ((x != location_.x) || (y != location_.y))
+		setLocation (Vec2f(x, y));
 }
 
 void
@@ -139,3 +137,4 @@ Component::isInside (int x,
 		y >= getY () - getHeight () / 2.0f &&
 		y < getY ()  + getHeight () / 2.0f;
 }
+
