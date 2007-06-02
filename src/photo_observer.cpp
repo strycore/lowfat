@@ -192,17 +192,17 @@ bool PhotoObserver::onMousePress(const MouseEvent& e)
         break;
 	}
 
-	if(buttonLeft_)
+	if (buttonLeft_)
 	{
-		if( image.get() != 0)
+		if (image.get() != 0)
 		{
 
-			unsigned int time = SDL_GetTicks();
-			if(time - this->lastDoubleClickStart_ < 200)
+			unsigned int time = SDL_GetTicks ();
+			if (time - this->lastDoubleClickStart_ < 200)
 			{
-				float zoomFactor = parent_->display_->getWidth() / image->getSize().x;
-				Vec2f targetSize = image->getSize() * zoomFactor;
-				if(targetSize.y > parent_->display_->getHeight() )
+				float zoomFactor = parent_->display_->getWidth () / image->getSize ().x;
+				Vec2f targetSize = image->getSize () * zoomFactor;
+				if (targetSize.y > parent_->display_->getHeight ())
 				{
 					zoomFactor = parent_->display_->getHeight() / image->getSize().y;
 					targetSize = image->getSize() * zoomFactor;
@@ -260,30 +260,41 @@ bool PhotoObserver::onMousePress(const MouseEvent& e)
 						notSelected = false;
 					}
 				}
-				if (notSelected) {
-					selectedList_.push_back( image );
-				}
-				image->setHighlight( true, SDL_GetTicks(), inFade);
+
+				if (notSelected)
+					selectedList_.push_back (image);
+
+				image->setHighlight (true, SDL_GetTicks (), inFade);
 				process = false;
 			}
-			lastDoubleClickStart_ = SDL_GetTicks();
+
+			lastDoubleClickStart_ = SDL_GetTicks ();
 		}
 		else
 		{
 			if(!shift_)
-			{
 				clearSelectedList();
-			}
-			parent_->getSelection()->setStart( Vec2f(e.x,e.y) );
-			parent_->getSelection()->setEnd( Vec2f(e.x,e.y) );
-			parent_->enableSelection( true );
+
+			parent_->getSelection()->setStart (Vec2f (e.x,e.y));
+			parent_->getSelection()->setEnd (Vec2f (e.x,e.y));
+			parent_->enableSelection (true);
 			selectedPreBox_ = selectedList_;
+
+			unsigned int time = SDL_GetTicks ();
+			if (time - this->lastDoubleClickStart_ < 200)
+			{
+				parent_->sort (LfWindow::aspectRatioSortMode,
+					       parent_->photoObserver_->getSelection ());
+			}
+			lastDoubleClickStart_ = SDL_GetTicks ();
 		}
 	}
+
 	return process;
 }
 
-bool PhotoObserver::onMouseRelease(const MouseEvent& e)
+bool
+PhotoObserver::onMouseRelease (const MouseEvent& e)
 {
 	if (e.button == MouseButton::left)
 	{
