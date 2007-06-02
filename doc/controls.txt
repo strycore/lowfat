@@ -17,3 +17,4 @@ r - reset position/movement
 
 mouse:
 what you would expect from mouse-controls
+left double-click, if you feel lost :)
