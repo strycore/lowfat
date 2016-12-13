@@ -1,4 +1,4 @@
-INCLUDES = \
+AM_CPPFLAGS = \
 		@SDL_CFLAGS@ \
 		@GLIB_CFLAGS@ \
 		@GTK_CFLAGS@ \

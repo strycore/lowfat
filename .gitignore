@@ -6,3 +6,4 @@ config.guess
 autom4te.cache
 Makefile.in
 config.sub
+config.h.in
