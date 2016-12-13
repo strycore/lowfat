@@ -1,0 +1,8 @@
+*~
+src/Makefile.in
+configure
+compile
+config.guess
+autom4te.cache
+Makefile.in
+config.sub
